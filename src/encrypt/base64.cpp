@@ -1,4 +1,4 @@
-﻿#include "base64.h"
+﻿#include "encrypt/base64.h"
 
 #include <cstdint>
 #include <stdexcept> 
@@ -60,7 +60,7 @@ namespace flowTumn {
             std::vector <byte> result;
             byte v[0xff + 1];
 
-            for (int i = 0; i < 64; ++i) {
+            for (byte i = 0; i < 64; ++i) {
                 v[TABLE[i]] = i;
             }
 

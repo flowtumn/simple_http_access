@@ -4,14 +4,15 @@
 #include "generator.h"
 
 namespace flowTumn {
+#if 0
 	/**
 	 * generate of Decrypt.
 	 */
-	tempalte <typename T, typename D>
+	template <typename T, typename D>
 	class GeneratorOfDecrypt
-		: public IGenerator <T> {
+		: public flowTumn::IGenerator <T> {
 	public:
-		GeneratorNoProcessingImpl(T value)
+        GeneratorOfDecrypt(T value)
 			: value_(std::move(value))
 		{}
 
@@ -23,6 +24,7 @@ namespace flowTumn {
 		T value_;
 		D decryptor_;
 	};
+#endif
 };
 
 #endif // GENERATOR_OF_DECRYPT_H_INCLUDE__

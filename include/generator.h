@@ -16,7 +16,7 @@ namespace flowtumn {
 	/**
 	 * generate a RowData.
 	 */
-	tempalte <typename T>
+	template <typename T>
 	class GeneratorNoProcessingImpl
 		: public IGenerator <T> {
 	public:

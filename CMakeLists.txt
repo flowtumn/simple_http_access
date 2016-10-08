@@ -1,34 +1,43 @@
-# cmake -DCMAKE_MODULE_PATH=/path/to -DLIBRESSL_ROOT_DIR=/path/to -DBOOST_ROOT=/path/to -DBOOST_LIBRARYDIR=/path/to
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8.12)
 
-message("module:   ${CMAKE_MODULE_PATH}")
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    add_definitions("/Zi /W4")
+    if (${UNICODE})
+        add_definitions(-DUNICODE -D_UNICODE)
+    endif ()
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -pthread -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++1y -O3 -pthread -Wall -Wextra")
+else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++1y -O3 -Wall -Wextra")
+endif ()
+
+
+set(PROJECT_NAME simple_http_access)
+
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+
 find_package(LibreSSL)
 
-if (LibreSSL_FOUND)
-  message("SSL OK:   ")
+message("SSL:   ${LIBRESSL_INCLUDE_DIR}")
+include_directories(${LIBRESSL_INCLUDE_DIR})
+
+# boost find.
+find_package(Boost 1.6.1 REQUIRED COMPONENTS regex filesystem system)
+if (Boost_FOUND)
+    message("BOSST OK")
+    message("BOOST-header: ${Boost_INCLUDE_DIRS}")
+    message("BOOST-library: ${Boost_LIBRARIES}")
+    include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-#if (LibreSSL_FOUND)
-#    message("SSL OK:   ")
-#else()
-#  message("NG")
-#endif()
+enable_testing()
 
-#project("simple_http_access")
-#
-#set(Boost_USE_STATIC_LIBS ON)
-#set(Boost_USE_MULTITHREADED ON)
-#
-## boost find.
-#find_package(Boost 1.6.1 REQUIRED COMPONENTS regex filesystem system)
-#IF(Boost_FOUND)
-#    message("BOSST OK")
-#    message("BOOST-header: ${Boost_INCLUDE_DIRS}")
-#    message("BOOST-library: ${Boost_LIBRARIES}")
-#endif()
-#
-#find_package(LibreSSL)
-#find_package(OpenSSL)
-#
-#message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
-##message("OpenSSL libraries: ${OPENSSL_LIBRARIES}")
+set(INCLUDE_ROOT_DIR "${PROJECT_SOURCE_DIR}/include")
+
+add_subdirectory(src)
+add_subdirectory(test)
+

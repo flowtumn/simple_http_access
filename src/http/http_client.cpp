@@ -1,4 +1,4 @@
-#include "http_client.h"
+#include "http/http_client.h"
 
 namespace flowTumn {
     class HttpClient::impl {
@@ -66,7 +66,7 @@ namespace flowTumn {
             boost::asio::async_write(
                 this->sslStream_,
                 *request,
-                [this, request, complete_handler](const boost::system::error_code& ec, int64_t sentSize) {
+                [this, request, complete_handler](const boost::system::error_code& ec, int64_t) {
                     if (!ec)  {
                         complete_handler();
                     }
