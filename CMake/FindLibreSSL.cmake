@@ -22,13 +22,13 @@ find_path(
 
 find_library(
   LibreSSL_SSL_LIBRARY
-  NAMES ssl ssleay32 ssleay32MD 
+  VNAMES libssl-39
   HINTS ${LIBRESSL_ROOT}/lib
 )
 
 find_library(
   LibreSSL_CRYPTO_LIBRARY
-  NAMES crypto
+  NAMES libcrypto-38
   HINTS ${LIBRESSL_ROOT}/lib
 )
 

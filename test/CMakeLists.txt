@@ -12,4 +12,6 @@ add_executable(
 
 include_directories (${INCLUDE_ROOT_DIR})
 
+target_link_libraries(${PROJECT_NAME}-test ${LibreSSL_LIBRARIES})
+
 add_test(test ${TEST_PROJECT_NAME})
